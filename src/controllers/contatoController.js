@@ -8,6 +8,9 @@ exports.index = (req, res) => {
 
 exports.register = async(req, res) => {
   try {
+    console.log(req.session.user._id); 
+    req.body.usuario = req.session.user._id;
+    console.log(req.body.usuario); 
     const contato = new Contato(req.body);
     await contato.register();
 
@@ -25,6 +28,10 @@ exports.register = async(req, res) => {
     return res.render('404');
   }
 };
+
+
+
+
 
 exports.editIndex = async function(req, res) {
   if(!req.params.id) return res.render('404');

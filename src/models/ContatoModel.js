@@ -7,6 +7,7 @@ const ContatoSchema = new mongoose.Schema({
   email: { type: String, required: false, default: '' },
   telefone: { type: String, required: false, default: '' },
   criadoEm: { type: Date, default: Date.now },
+  usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Novo campo de usuário
 });
 
 const ContatoModel = mongoose.model('Contato', ContatoSchema);
@@ -18,10 +19,12 @@ function Contato(body) {
 }
 
 Contato.prototype.register = async function() {
+  console.log(this.body);
   this.valida();
   if(this.errors.length > 0) return;
   this.contato = await ContatoModel.create(this.body);
 };
+
 
 Contato.prototype.valida = function() {
   this.cleanUp();
@@ -32,6 +35,9 @@ Contato.prototype.valida = function() {
   if(!this.body.nome) this.errors.push('Nome é um campo obrigatório.');
   if(!this.body.email && !this.body.telefone) {
     this.errors.push('Pelo menos um contato precisa ser enviado: e-mail ou telefone.');
+  }
+  if(!this.body.usuario) {
+    console.log('Usuário não existe');
   }
 };
 
@@ -47,6 +53,7 @@ Contato.prototype.cleanUp = function() {
     sobrenome: this.body.sobrenome,
     email: this.body.email,
     telefone: this.body.telefone,
+    usuario: this.body.usuario,
   };
 };
 
@@ -64,11 +71,14 @@ Contato.buscaPorId = async function(id) {
   return contato;
 };
 
-Contato.buscaContatos = async function() {
-  const contatos = await ContatoModel.find()
+// Adicione um parâmetro de usuário à função
+Contato.buscaContatos = async function(usuarioId) {
+  // Use o parâmetro na consulta ao banco de dados
+  const contatos = await ContatoModel.find({ usuario: usuarioId })
     .sort({ criadoEm: -1 });
   return contatos;
 };
+
 
 Contato.delete = async function(id) {
   if(typeof id !== 'string') return;
