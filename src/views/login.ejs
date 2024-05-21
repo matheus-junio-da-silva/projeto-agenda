@@ -7,15 +7,15 @@
 
     <div class="col-lg-8 my-3">
       <h1 class="text-center">Criar conta ou Entrar</h1>
-      <p class="text-center lead">Faça login ou crie sua conta abaixo</p>
+      <p class="text-center lead text-secondary">Faça login ou crie sua conta abaixo</p>
 
       <%- include('includes/messages'); %>
 
       <div class="row">
 
-        <div class="col-lg my-5">
-          <h4>Faça seu cadastro</h4>
-          <p>Se você ainda não tem conta, preencha o formulário abaixo:</p>
+        <div class="col-lg my-5 cadastro-display d-none">
+          <h4 class="text-info">Faça seu cadastro</h4>
+          <p class="text-secondary">Se você ainda não tem conta, preencha o formulário abaixo:</p>
 
           <form class="form-cadastro" action="/login/register" method="POST">
             <input type="hidden" name="_csrf" value=<%= csrfToken %>>
@@ -27,15 +27,17 @@
               <label>Sua senha</label>
               <input type="password" class="form-control" name="password">
             </div>
-            <button type="submit" class="btn btn-primary">Criar minha conta</button>
+            <button type="submit" class="btn btn-info">Criar minha conta</button>
           </form>
 
+          <div class="text-secondary">já tem uma conta? clique no botao abaixo</div>
+          <button class="btn btn-primary btn-sm" onclick="toggleDisplayLogin()" >Fazer login</button>
         </div>
 
-        <div class="col-lg my-5">
-          <h4>Faça seu login</h4>
+        <div class="col-lg my-5 login-display">
+          <h4 class="text-primary">Faça seu login</h4>
 
-          <p>Se você já tem uma conta, faça login abaixo:</p>
+          <p class="text-secondary">Se você já tem uma conta, faça login abaixo:</p>
 
           <form class="form-login" action="/login/login" method="POST">
             <input type="hidden" name="_csrf" value=<%= csrfToken %>>
@@ -49,7 +51,8 @@
             </div>
             <button type="submit" class="btn btn-primary">Entrar</button>
           </form>
-
+          <div class="text-secondary">nao tem conta? clique no botao abaixo</div>
+          <button class="btn btn-info btn-sm" onclick="toggleDisplayLogin()" >Fazer cadastro</button>
           
         </div>
 
@@ -60,5 +63,25 @@
     <div class="col-lg-2"></div>
   </div>
 </div>
+
+<script>
+  function toggleDisplayLogin() {
+    var cadastroDiv = document.querySelector('.cadastro-display');
+    var loginDiv = document.querySelector('.login-display');
+
+    if (cadastroDiv.classList.contains('d-none')) {
+      cadastroDiv.classList.remove('d-none');
+      cadastroDiv.classList.add('d-block');
+      loginDiv.classList.remove('d-block');
+      loginDiv.classList.add('d-none');
+    } else {
+      loginDiv.classList.remove('d-none');
+      loginDiv.classList.add('d-block');
+      cadastroDiv.classList.remove('d-block');
+      cadastroDiv.classList.add('d-none');
+    }
+  }
+</script>
+
 
 <%- include('includes/footer') %>

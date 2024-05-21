@@ -5,6 +5,7 @@ exports.index = (req, res) => {
   return res.render('login', { user: req.session.user });
 };
 
+
 exports.register = async function(req, res) {
   try {
     const login = new Login(req.body);
