@@ -3,16 +3,16 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-2"></div>
+    <div class=" col-md-1 col-sm-0"></div>
 
-    <div class="col-lg-8 my-3">
+    <div class="col-lg-12 col-md-10 col-sm-12 my-3">
       <h1 class="text-center">Agenda</h1>
       <p class="text-center lead">Seus contatos estão abaixo</p>
 
       <%- include('includes/messages') %>
 
       <% if(contatos.length > 0) { %>
-      <div class="responsive-table">
+      <div class="table-responsive">
         <table class="table my-3">
           <% contatos.forEach(contato => { %>
           <tr>
@@ -25,6 +25,7 @@
           </tr>
           <% }); %>
         </table>
+        <p class="d-lg-none text-secondary">Deslize o dedo na tabela para ver mais informações -></p>
       </div>
       <% } else { %>
         <p class="text-center lead">Não existem contatos na sua agenda.</p>
@@ -32,7 +33,7 @@
 
     </div>
     
-    <div class="col-lg-2"></div>
+    <div class="col-md-1 col-sm-0"></div>
   </div>
 </div>
 
